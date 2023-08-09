@@ -11,7 +11,7 @@ class RemoteAuthentication {
   RemoteAuthentication({required this.httpClient, required this.url});
 
   Future<void> auth(AuthenticationParams params) async {
-    final body = {'email': params.email, 'senha': params.senha};
+    final body = {'email': params.email, 'password': params.password};
     await httpClient.request(url: url, method: 'post', body: body);
   }
 }
@@ -43,7 +43,7 @@ void main() {
 
   test("Shold call httpClient with correct values", () async {
     final params = AuthenticationParams(
-        email: faker.internet.email(), senha: faker.internet.password());
+        email: faker.internet.email(), password: faker.internet.password());
 
     // 2. Act
     await remoteAuthentication.auth(params);
@@ -52,6 +52,6 @@ void main() {
     verify(mockHttpClient.request(
         url: url,
         method: 'post',
-        body: {'email': params.email, 'senha': params.senha}));
+        body: {'email': params.email, 'password': params.password}));
   });
 }

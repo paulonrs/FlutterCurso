@@ -7,7 +7,7 @@ abstract class Authentication {
 
 class AuthenticationParams {
   final String email;
-  final String senha;
+  final String password;
 
-  AuthenticationParams({required this.email, required this.senha});
+  AuthenticationParams({required this.email, required this.password});
 }
