@@ -1,6 +1,3 @@
-class HttpClient {
-  Future<void>? request(
-      {required String url, required String method, required Map body}) {
-    return Future.value();
-  }
+abstract class HttpClient {
+  Future<Map>? request({required String url, required String method, Map body});
 }

@@ -30,6 +30,12 @@ void main() {
   });
 
   test("Shold call httpClient with correct values", () async {
+    when(mockHttpClient.request(
+            url: url, method: 'post', body: params.toJson()))
+        .thenAnswer((_) async => {
+              'accessToken': faker.guid.guid(),
+              'name': faker.person.name(),
+            });
     // 2. Act
     await remoteAuthentication.auth(params);
 
@@ -81,5 +87,20 @@ void main() {
 
     // 3. Assert
     expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test("Shold return an Account if HttpClient returns 200", () async {
+    final accessToken = faker.guid.guid();
+    when(mockHttpClient.request(
+            url: url, method: 'post', body: params.toJson()))
+        .thenAnswer((_) async => {
+              'accessToken': accessToken,
+              'name': faker.person.name(),
+            });
+    // 2. Act
+    final account = await remoteAuthentication.auth(params);
+
+    // 3. Assert
+    expect(account.token, accessToken);
   });
 }
