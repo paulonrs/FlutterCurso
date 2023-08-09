@@ -1,6 +1,6 @@
 import 'package:flutter_curso/domain/usecases/usecases.dart';
 
-import '../http/htpp.dart';
+import '../http/http.dart';
 
 class RemoteAuthentication {
   final HttpClient httpClient;

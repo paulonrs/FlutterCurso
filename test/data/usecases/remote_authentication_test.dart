@@ -34,8 +34,6 @@ void main() {
 
     // 3. Assert
     verify(mockHttpClient.request(
-        url: url,
-        method: 'post',
-        body: {'email': params.email, 'password': params.password}));
+        url: url, method: 'post', body: params.toJson()));
   });
 }
