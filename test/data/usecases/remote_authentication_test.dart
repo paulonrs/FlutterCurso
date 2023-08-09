@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:flutter_curso/domain/helpers/helpers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -14,6 +15,7 @@ void main() {
   late HttpClientSpy mockHttpClient;
   late String url;
   late RemoteAuthentication remoteAuthentication;
+  late AuthenticationParams params;
 
   // 1. Arrange
   setUp(() {
@@ -23,17 +25,61 @@ void main() {
       httpClient: mockHttpClient,
       url: url,
     );
+    params = AuthenticationParams(
+        email: faker.internet.email(), password: faker.internet.password());
   });
 
   test("Shold call httpClient with correct values", () async {
-    final params = AuthenticationParams(
-        email: faker.internet.email(), password: faker.internet.password());
-
     // 2. Act
     await remoteAuthentication.auth(params);
 
     // 3. Assert
     verify(mockHttpClient.request(
         url: url, method: 'post', body: params.toJson()));
+  });
+
+  test("Shold throw InvalidCredentialsError if HttpClient returns 401",
+      () async {
+    when(mockHttpClient.request(
+            url: url, method: 'post', body: params.toJson()))
+        .thenThrow(HttpError.unauthorized);
+    // 2. Act
+    final future = remoteAuthentication.auth(params);
+
+    // 3. Assert
+    expect(future, throwsA(DomainError.invalidCredentials));
+  });
+
+  test("Shold throw UnexpectedError if HttpClient returns 400", () async {
+    when(mockHttpClient.request(
+            url: url, method: 'post', body: params.toJson()))
+        .thenThrow(HttpError.badRequest);
+    // 2. Act
+    final future = remoteAuthentication.auth(params);
+
+    // 3. Assert
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test("Shold throw UnexpectedError if HttpClient returns 404", () async {
+    when(mockHttpClient.request(
+            url: url, method: 'post', body: params.toJson()))
+        .thenThrow(HttpError.notFound);
+    // 2. Act
+    final future = remoteAuthentication.auth(params);
+
+    // 3. Assert
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test("Shold throw UnexpectedError if HttpClient returns 500", () async {
+    when(mockHttpClient.request(
+            url: url, method: 'post', body: params.toJson()))
+        .thenThrow(HttpError.serverError);
+    // 2. Act
+    final future = remoteAuthentication.auth(params);
+
+    // 3. Assert
+    expect(future, throwsA(DomainError.unexpected));
   });
 }

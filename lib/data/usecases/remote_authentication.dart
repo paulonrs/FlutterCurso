@@ -1,5 +1,6 @@
 import 'package:flutter_curso/domain/usecases/usecases.dart';
 
+import '../../domain/helpers/helpers.dart';
 import '../http/http.dart';
 
 class RemoteAuthentication {
@@ -10,7 +11,15 @@ class RemoteAuthentication {
 
   Future<void> auth(AuthenticationParams params) async {
     final body = RemoteAuthenticationParams.fromEntity(params).toJson();
-    await httpClient.request(url: url, method: 'post', body: body);
+    try {
+      await httpClient.request(url: url, method: 'post', body: body);
+    } on HttpError catch (error) {
+      if (error == HttpError.unauthorized) {
+        throw DomainError.invalidCredentials;
+      } else {
+        throw DomainError.unexpected;
+      }
+    }
   }
 }
 
