@@ -17,6 +17,18 @@ void main() {
   late RemoteAuthentication remoteAuthentication;
   late AuthenticationParams params;
 
+  Map mockValidData() => {
+        'accessToken': faker.guid.guid(),
+        'name': faker.person.name(),
+      };
+
+  PostExpectation mockRequest() => when(
+      mockHttpClient.request(url: url, method: 'post', body: params.toJson()));
+
+  void mockHttpData(Map data) => mockRequest().thenAnswer((_) async => (data));
+
+  void mockHttpErro(HttpError erro) => mockRequest().thenThrow(erro);
+
   // 1. Arrange
   setUp(() {
     mockHttpClient = HttpClientSpy();
@@ -27,15 +39,10 @@ void main() {
     );
     params = AuthenticationParams(
         email: faker.internet.email(), password: faker.internet.password());
+    mockHttpData(mockValidData());
   });
 
   test("Shold call httpClient with correct values", () async {
-    when(mockHttpClient.request(
-            url: url, method: 'post', body: params.toJson()))
-        .thenAnswer((_) async => {
-              'accessToken': faker.guid.guid(),
-              'name': faker.person.name(),
-            });
     // 2. Act
     await remoteAuthentication.auth(params);
 
@@ -46,9 +53,7 @@ void main() {
 
   test("Shold throw InvalidCredentialsError if HttpClient returns 401",
       () async {
-    when(mockHttpClient.request(
-            url: url, method: 'post', body: params.toJson()))
-        .thenThrow(HttpError.unauthorized);
+    mockHttpErro(HttpError.unauthorized);
     // 2. Act
     final future = remoteAuthentication.auth(params);
 
@@ -57,9 +62,7 @@ void main() {
   });
 
   test("Shold throw UnexpectedError if HttpClient returns 400", () async {
-    when(mockHttpClient.request(
-            url: url, method: 'post', body: params.toJson()))
-        .thenThrow(HttpError.badRequest);
+    mockHttpErro(HttpError.badRequest);
     // 2. Act
     final future = remoteAuthentication.auth(params);
 
@@ -68,9 +71,7 @@ void main() {
   });
 
   test("Shold throw UnexpectedError if HttpClient returns 404", () async {
-    when(mockHttpClient.request(
-            url: url, method: 'post', body: params.toJson()))
-        .thenThrow(HttpError.notFound);
+    mockHttpErro(HttpError.notFound);
     // 2. Act
     final future = remoteAuthentication.auth(params);
 
@@ -79,9 +80,7 @@ void main() {
   });
 
   test("Shold throw UnexpectedError if HttpClient returns 500", () async {
-    when(mockHttpClient.request(
-            url: url, method: 'post', body: params.toJson()))
-        .thenThrow(HttpError.serverError);
+    mockHttpErro(HttpError.serverError);
     // 2. Act
     final future = remoteAuthentication.auth(params);
 
@@ -91,16 +90,20 @@ void main() {
 
   test("Shold return an Account if HttpClient returns 200", () async {
     final accessToken = faker.guid.guid();
-    when(mockHttpClient.request(
-            url: url, method: 'post', body: params.toJson()))
-        .thenAnswer((_) async => {
-              'accessToken': accessToken,
-              'name': faker.person.name(),
-            });
+    mockHttpData({'accessToken': accessToken, 'name': faker.person.name()});
     // 2. Act
     final account = await remoteAuthentication.auth(params);
 
     // 3. Assert
     expect(account.token, accessToken);
+  });
+
+  test("Should return invalid token if HttpCliente returns 200", () async {
+    mockHttpData({'invalid_value': 'invalid_value'});
+    // 2. Act
+    final future = remoteAuthentication.auth(params);
+
+    // 3. Assert
+    expect(future, throwsException);
   });
 }
