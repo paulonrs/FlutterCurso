@@ -3,6 +3,7 @@ import 'package:flutter_curso/domain/usecases/usecases.dart';
 
 import '../../domain/helpers/helpers.dart';
 import '../http/http.dart';
+import '../models/models.dart';
 
 class RemoteAuthentication {
   final HttpClient httpClient;
@@ -15,7 +16,7 @@ class RemoteAuthentication {
     try {
       final httpResponse =
           await httpClient.request(url: url, method: 'post', body: body);
-      return AccountEntity.fromJson(httpResponse!);
+      return RemoteAccountModel.fromJson(httpResponse!).toEntity();
     } on HttpError catch (error) {
       if (error == HttpError.unauthorized) {
         throw DomainError.invalidCredentials;
