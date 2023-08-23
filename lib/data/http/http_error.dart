@@ -3,4 +3,13 @@ enum HttpError {
   notFound, // 404
   serverError, // 500
   unauthorized, // 401
+  forbidden, // 403
 }
+
+final HttpErrorMap = {
+  400: HttpError.badRequest,
+  401: HttpError.unauthorized,
+  404: HttpError.notFound,
+  403: HttpError.forbidden,
+  500: HttpError.serverError,
+};
