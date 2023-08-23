@@ -6,7 +6,7 @@ enum HttpError {
   forbidden, // 403
 }
 
-final HttpErrorMap = {
+final httpErrorMap = {
   400: HttpError.badRequest,
   401: HttpError.unauthorized,
   404: HttpError.notFound,

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../entities/account_entity.dart';
 
 abstract class Authentication {
