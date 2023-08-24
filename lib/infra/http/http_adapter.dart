@@ -3,57 +3,64 @@ import 'dart:convert';
 import '../helper/helper.dart';
 
 import 'package:flutter_curso/data/http/http.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:http/http.dart';
 
 class HttpAdapter implements HttpClient {
+  final Client http;
+
+  HttpAdapter({required this.http});
+
   @override
-  Future<Map>? request(
+  Future<Map> request(
       {required String url,
       required String method,
       Map? body,
       Map? headers}) async {
-    Response? response = Response("", 500);
-
     final defaultHeaders = headers?.cast<String, String>() ?? {}
       ..addAll(
           {'content-type': 'application/json', 'accept': 'application/json'});
+    final jsonBody = body != null ? jsonEncode(body) : null;
 
-    Future<Response?>? request;
+    method = method.toLowerCase();
+
+    var response = Response('', 500);
+    Future<Response>? futureResponse;
 
     try {
       if (method == 'post') {
-        request = http.post(
+        futureResponse = http.post(
           Uri.parse(url),
           headers: defaultHeaders,
-          body: json.encode(body),
+          body: jsonBody,
         );
       } else if (method == 'get') {
-        request = http.get(
+        futureResponse = http.get(
           Uri.parse(url),
           headers: defaultHeaders,
         );
       } else if (method == 'delete') {
-        request = http.delete(
+        futureResponse = http.delete(
           Uri.parse(url),
           headers: defaultHeaders,
-          body: json.encode(body),
+          body: jsonBody,
         );
       } else if (method == 'put') {
-        request = http.put(
+        futureResponse = http.put(
           Uri.parse(url),
           headers: defaultHeaders,
-          body: json.encode(body),
+          body: jsonBody,
         );
       } else {
         throw Exception("Method Request not found");
       }
 
-      response = await request;
+      const timeToTimeOut = Duration(seconds: 10);
+      response = await futureResponse.timeout(timeToTimeOut);
     } catch (error) {
       throw HttpError.serverError;
     }
 
-    return handleResponse(response!) as Map<dynamic, dynamic>;
+    return handleResponse(response);
   }
 }

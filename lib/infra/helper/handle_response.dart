@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 
 import '../../data/http/http.dart';
 
-Map? handleResponse(Response response) {
+dynamic handleResponse(Response response) {
   switch (response.statusCode) {
     case 200:
       return response.body.isEmpty ? null : jsonDecode(response.body);

@@ -8,18 +8,34 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
-  meta:
-  http: 
+  cupertino_icons: 1.0.5
+  meta: 1.9.1
+  http: 1.1.0
+  provider: 6.0.5
+  equatable: 2.0.5
+  get: 4.6.5
+  flutter_secure_storage: 8.0.0
+  localstorage: 4.0.1+4
+  carousel_slider: 4.2.1
+  intl: 0.18.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-  test:
-  mockito: 5.4.2
-  faker:
+  flutter_lints: 2.0.2
+  test: 1.24.1
+  mocktail: 1.0.0
+  faker: 2.1.0
+  flutter_launcher_icons: 0.13.1
+  network_image_mock: 2.1.1
 
 flutter:
   uses-material-design: true
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_android: lib/ui/assets/icon/android.png
+  image_path_ios: lib/ui/assets/icon/ios.png
+  adaptive_icon_background: lib/ui/assets/icon/background.png
+  adaptive_icon_foreground: lib/ui/assets/icon/foreground.png
