@@ -227,5 +227,42 @@ void main() {
 
       expect(response, null);
     });
+
+    test("Should return badRequest if the returns badRequest", () async {
+      client.mockPut(400);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.badRequest));
+    });
+    test("Should return unauthorized if the returns unauthorized", () async {
+      client.mockPut(401);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.unauthorized));
+    });
+    test("Should return forbidden if the returns forbidden", () async {
+      client.mockPut(403);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.forbidden));
+    });
+    test("Should return notFound if the returns notFound", () async {
+      client.mockPut(404);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.notFound));
+    });
+    test("Should return serverError if the returns serverError", () async {
+      client.mockPut(500);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.serverError));
+    });
+    test("Should return serverError if an happen error", () async {
+      client.mockPut(500);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.serverError));
+    });
   });
 }
