@@ -60,7 +60,6 @@ class HttpAdapter implements HttpClient {
     } catch (error) {
       throw HttpError.serverError;
     }
-
     return handleResponse(response);
   }
 }
