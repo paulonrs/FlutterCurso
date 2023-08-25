@@ -182,13 +182,14 @@ void main() {
     });
 
     test("Should return serverError if get retuns 500", () async {
-      client.mockGet(500);
+      client.mockGetError();
 
       expect(() async {
         await httpAdapter.request(url: url, method: method);
       }, throwsA(HttpError.serverError));
     });
   });
+
   group('put', () {
     const method = 'put';
     test("Should call put with correct values", () async {
@@ -259,7 +260,86 @@ void main() {
       }, throwsA(HttpError.serverError));
     });
     test("Should return serverError if an happen error", () async {
-      client.mockPut(500);
+      client.mockPutError();
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.serverError));
+    });
+  });
+
+  group('delete', () {
+    const method = 'delete';
+    test("Should call delete with correct values", () async {
+      client.mockDelete(200, body: jsonEncode(body));
+
+      await httpAdapter.request(url: url, method: method, body: body);
+
+      verify(() => client.delete(Uri.parse(url),
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json'
+          },
+          body: jsonEncode(body)));
+    });
+    test("Should return the body if the returns contains values ", () async {
+      client.mockDelete(200, body: jsonEncode(body));
+
+      final response =
+          await httpAdapter.request(url: url, method: method, body: body);
+
+      expect(response, body);
+    });
+
+    test("Should return null if the returns does not contain values", () async {
+      client.mockDelete(200, body: '');
+
+      final response =
+          await httpAdapter.request(url: url, method: method, body: body);
+
+      expect(response, null);
+    });
+
+    test("Should return null if the returns 204", () async {
+      client.mockDelete(204, body: jsonEncode(body));
+
+      final response =
+          await httpAdapter.request(url: url, method: method, body: body);
+
+      expect(response, null);
+    });
+
+    test("Should return badRequest if the returns badRequest", () async {
+      client.mockDelete(400);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.badRequest));
+    });
+    test("Should return unauthorized if the returns unauthorized", () async {
+      client.mockDelete(401);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.unauthorized));
+    });
+    test("Should return forbidden if the returns forbidden", () async {
+      client.mockDelete(403);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.forbidden));
+    });
+    test("Should return notFound if the returns notFound", () async {
+      client.mockDelete(404);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.notFound));
+    });
+    test("Should return serverError if the returns serverError", () async {
+      client.mockDelete(500);
+      expect(() async {
+        await httpAdapter.request(url: url, method: method);
+      }, throwsA(HttpError.serverError));
+    });
+    test("Should return serverError if an happen error", () async {
+      client.mockDeleteError();
       expect(() async {
         await httpAdapter.request(url: url, method: method);
       }, throwsA(HttpError.serverError));

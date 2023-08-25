@@ -31,4 +31,12 @@ class ClientSpy extends Mock implements Client {
       mockGetCall().thenAnswer((_) async => Response(body, statusCode));
 
   void mockGetError() => when(() => mockGetCall().thenThrow(Exception()));
+
+  When mockDeleteCall() => when(() => this
+      .delete(any(), body: any(named: 'body'), headers: any(named: 'headers')));
+
+  void mockDelete(int statusCode, {String body = '{"any_key":"any_value"}'}) =>
+      mockDeleteCall().thenAnswer((_) async => Response(body, statusCode));
+
+  void mockDeleteError() => when(() => mockPostCall().thenThrow(Exception()));
 }
