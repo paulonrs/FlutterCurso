@@ -32,9 +32,17 @@ class _ButtonPrimaryState extends State<ButtonPrimary> {
         child: Ink(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment(-1.00, 0.00),
-                end: Alignment(1, 0),
-                colors: [Color(0xFF4D00B3), Color(0xFF7D19FF)]),
+              begin: Alignment.bottomLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 78, 0, 179),
+                Color.fromARGB(255, 89, 5, 197),
+                Color.fromARGB(255, 102, 15, 217),
+                Color.fromARGB(255, 118, 24, 233),
+                Color.fromARGB(255, 130, 35, 255),
+              ],
+              stops: [0.1, 0.2, 0.6, 0.8, 1],
+            ),
             borderRadius: BorderRadius.all(Radius.circular(80.0)),
           ),
           child: Container(
