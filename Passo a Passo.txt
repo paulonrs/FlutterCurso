@@ -41,3 +41,7 @@ O data layers, usamos a classes nao concretas do Domain, para criar as implement
 
 Um exemplo disso seria o Authentication, que esta no Domain, e implementamos o RemoteAuthentication, para fazer uma authenticacao remota (api)
 
+
+# infra
+Onde contem as classes que usam libs de 3os
+

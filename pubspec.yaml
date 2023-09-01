@@ -18,6 +18,7 @@ dependencies:
   localstorage: 4.0.1+4
   carousel_slider: 4.2.1
   intl: 0.18.1
+  flutter_svg: ^2.0.7 
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +32,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - lib/ui/assets/
 
 flutter_icons:
   ios: true
