@@ -11,8 +11,8 @@ class MyApp extends StatelessWidget {
       primaryContainer: Color(0xFF3B0F3B),
       secondary: Color(0xFF1E081D),
       secondaryContainer: Color(0xFF808080),
-      surface: Color.fromRGBO(255, 100, 100, 0.0),
-      background: Color(0xFF0F0F0F),
+      surface: Color.fromRGBO(0, 0, 0, 0),
+      background: Color.fromARGB(255, 0, 0, 0),
       error: Color.fromARGB(255, 255, 125, 125),
       onPrimary: Colors.white,
       onSecondary: Colors.white,
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color.fromARGB(255, 0, 0, 0),
         colorScheme: customColorScheme,
         inputDecorationTheme: InputDecorationTheme(
           filled: true,

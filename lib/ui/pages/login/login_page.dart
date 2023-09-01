@@ -54,6 +54,7 @@ class LoginPage extends StatelessWidget {
                     child: Text(
                       'Esqueci minha senha',
                       textAlign: TextAlign.end,
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
@@ -64,6 +65,100 @@ class LoginPage extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => HomePage()))
                   },
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Text(
+                          'Não tem uma conta ?',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 137, 137, 137)),
+                        ),
+                      ),
+                      Text(
+                        'Cadastre-se',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400, fontSize: 18),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 3,
+                          decoration: ShapeDecoration(
+                            color: const Color.fromARGB(83, 119, 119, 119),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Expanded(
+                        child: Column(
+                          children: [
+                            Text('OU'),
+                            Text('Acesse com'),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 3,
+                          decoration: ShapeDecoration(
+                            color: const Color.fromARGB(83, 119, 119, 119),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      MaterialButton(
+                        onPressed: () {},
+                        child: Container(
+                          width: 120,
+                          height: 62,
+                          decoration: ShapeDecoration(
+                            color: const Color(0xFF111111),
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  width: 1, color: Color(0xFF646464)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 120,
+                        height: 62,
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF111111),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFF646464)),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ]),
             ),
