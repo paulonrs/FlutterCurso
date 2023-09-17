@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_curso/ui/pages/login/login_page.dart';
 
 // import './../ativos/ativos.dart';
 
@@ -36,8 +35,8 @@ class HomePage extends StatelessWidget {
               title: const Text('Login'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => LoginPage()));
               },
             ),
           ],
